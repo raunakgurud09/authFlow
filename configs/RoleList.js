@@ -1,6 +1,6 @@
 const ROLES_LIST = {
-    "Admin": ADMIN,
     "SuperAdmin":SUPERADMIN,
+    "Admin": ADMIN,
     "User": USER,
 }
 
