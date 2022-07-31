@@ -9,7 +9,7 @@ const cors = require("cors");
 
 //  imports
 const connectDB = require("./configs/DbConnect");
-
+const dotenvConfig = require("./configs/dotenv.config");
 //  database
 
 //  routersImport
@@ -19,14 +19,15 @@ const connectDB = require("./configs/DbConnect");
 //  routes config
 
 //  port
-const port = process.env.PORT || 5000;
-
 const start = async () => {
   try {
-    await connectDB(process.env.MONGO_URL);
-    app.listen(port, () =>
-      console.log(`Server is listening on port ${port}...`)
-    );
+    
+    await connectDB(dotenvConfig.URI);
+    app.listen(dotenvConfig.PORT, dotenvConfig.HOST, () => {
+      console.log(
+        `APP LISTENING ON http://${dotenvConfig.HOST}:${dotenvConfig.PORT}`
+      );
+    });
   } catch (error) {
     console.log(error);
   }
