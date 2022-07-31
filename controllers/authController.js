@@ -15,20 +15,17 @@ const register = async (req, res) => {
     res.status(StatusCodes.CONFLICT).json({ message: "Email already exist" });
   }
 
-  const verificationToken = await bcrypt.hash(password, 10);
+  const hashPassword = await bcrypt.hash(password, 10);
+  // const verificationToken = ;
 
   try {
     const user = await User.create({
       name,
       email,
-      password,
-      role,
-      verificationToken,
+      password: hashPassword,
     });
 
-    res
-      .status(StatusCodes.CREATED)
-      .json({ success: `New user ${user} created!` });
+    res.status(StatusCodes.CREATED).json({ user });
   } catch (error) {
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)

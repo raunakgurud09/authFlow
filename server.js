@@ -4,6 +4,7 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 
+app.use(express.json());
 //  rest of the packages
 const cors = require("cors");
 
@@ -13,12 +14,12 @@ const dotenvConfig = require("./configs/dotenv.config");
 //  database
 
 //  routersImport
-const authRoutes = require('./routes/authRoutes')
+const authRoutes = require("./routes/authRoutes");
 
 //  middleware
 
 //  routes config
-app.use('/api/v1/auth',authRoutes)
+app.use("/api/v1/auth", authRoutes);
 
 //  port
 const start = async () => {
