@@ -23,7 +23,6 @@ app.use('/api/v1/auth',authRoutes)
 //  port
 const start = async () => {
   try {
-    
     await connectDB(dotenvConfig.URI);
     app.listen(dotenvConfig.PORT, dotenvConfig.HOST, () => {
       console.log(

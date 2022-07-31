@@ -9,6 +9,6 @@ const {
 
 Router.post('/register',register)
 Router.post('/login',login)
-Router.delete('/log-out',logout)
+Router.delete('/logout',logout)
 
 module.exports = Router;
