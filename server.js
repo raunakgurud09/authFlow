@@ -13,10 +13,12 @@ const dotenvConfig = require("./configs/dotenv.config");
 //  database
 
 //  routersImport
+const authRoutes = require('./routes/authRoutes')
 
 //  middleware
 
 //  routes config
+app.use('/api/v1/auth',authRoutes)
 
 //  port
 const start = async () => {

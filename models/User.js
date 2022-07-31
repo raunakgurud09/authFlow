@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const { User } = require("../configs/RoleList");
+const validator = require("validator");
+// const { User, SuperAdmin, Admin } = require("../configs/RoleList");
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -23,12 +24,9 @@ const UserSchema = new mongoose.Schema({
     minlength: 6,
   },
   role: {
-    User: {
-      type: String,
-      default: "User",
-    },
-    SuperAdmin: SUPERADMIN,
-    Admin: ADMIN,
+    type: String,
+    enum: ['superadmin','admin', 'user'],
+    default: 'user',
   },
   refreshToken: [String],
 });
