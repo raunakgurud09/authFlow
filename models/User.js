@@ -23,11 +23,14 @@ const UserSchema = new mongoose.Schema({
     required: [true, "Please provide password"],
     minlength: 6,
   },
-  role: {
-    type: String,
-    required: [true, "Role is requied"],
-    enum: ["superadmin", "admin", "user"],
-    default: "user",
+  roles: {
+    User: {
+      type: String,
+      default: "user",
+    },
+    superadmin: String,
+    admin: String,
+    // enum: ["superadmin", "admin", "user"],
   },
   refreshToken: [String],
 });
