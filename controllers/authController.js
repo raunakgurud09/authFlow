@@ -4,7 +4,7 @@ const { StatusCodes } = require("http-status-codes");
 const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, roles } = req.body;
   if ((!email, !password)) {
     return res
       .status(StatusCodes.BAD_REQUEST)
@@ -25,6 +25,7 @@ const register = async (req, res) => {
     const user = await User.create({
       name,
       email,
+      roles,
       password: hashPassword,
     });
 
@@ -71,7 +72,7 @@ const login = async (req, res) => {
     );
 
     let newRefreshTokenArray = !cookies?.jwt
-      ? foundUser.accessToken
+      ? foundUser.refreshToken
       : foundUser.refreshToken.filter((rt) => rt !== cookies.jwt);
 
     if (cookies?.jwt) {
@@ -93,9 +94,9 @@ const login = async (req, res) => {
     foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken];
     const result = await foundUser.save();
 
-    
+    console.log(result);
 
-    res.cookies("jwt", newRefreshToken, {
+    res.cookie("jwt", newRefreshToken, {
       httpOnly: true,
       secure: true,
       sameSite: "None",
