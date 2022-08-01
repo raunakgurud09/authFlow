@@ -44,7 +44,7 @@ const login = async (req, res) => {
   if (!email && !password) {
     return res
       .status(StatusCodes.BAD_REQUEST)
-      .json({ message: "Username and password are required." });
+      .json({ message: "Email and password are required." });
   }
 
   const foundUser = await User.findOne({ email }).exec();
@@ -64,12 +64,47 @@ const login = async (req, res) => {
       { expiresIn: "10s" }
     );
 
-    
-    const refreshToken = jwt.sign(
-      {username:foundUser.username},
+    const newRefreshToken = jwt.sign(
+      { username: foundUser.username },
       process.env.REFRESH_TOKEN_SECRET,
-      {expiresIn:'1d'}
-    )
+      { expiresIn: "1d" }
+    );
+
+    let newRefreshTokenArray = !cookies?.jwt
+      ? foundUser.accessToken
+      : foundUser.refreshToken.filter((rt) => rt !== cookies.jwt);
+
+    if (cookies?.jwt) {
+      const refreshToken = cookies.jwt;
+      const foundToken = await User.findOne({ refreshToken }).exec();
+
+      if (!foundToken) {
+        console.log(`attempt refresh token reuse to login`);
+        newRefreshTokenArray = [];
+      }
+
+      res.clearCookies("jwt", {
+        httpOnly: true,
+        sameSite: "None",
+        secure: true,
+      });
+    }
+
+    foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken];
+    const result = await foundUser.save();
+
+    
+
+    res.cookies("jwt", newRefreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    res.json({ roles, accessToken });
+  } else {
+    res.status(StatusCodes.UNAUTHORIZED);
   }
 };
 
