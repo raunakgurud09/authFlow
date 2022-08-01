@@ -113,7 +113,6 @@ const logout = async (req, res) => {
   const cookies = res.cookies;
   if (!cookies?.jwt) {
     res.clearCookie("jwt", { httpOnly: true, sameSite: true, secure: true });
-    console.log("hi");
     return res.status(StatusCodes.NO_CONTENT).json("No cookies found");
   }
   const refreshToken = cookies.jwt;
