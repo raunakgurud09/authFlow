@@ -3,7 +3,6 @@ const fs = require("fs");
 const { StatusCodes } = require("http-status-codes");
 const cloudinaryConfiged = require("../configs/cloudinary");
 const cloudinary = require("cloudinary");
-// require("../public/uploads");
 
 const uploadUserAvatarImageLocal = async (req, res) => {
   if (!req.files) {
@@ -11,7 +10,6 @@ const uploadUserAvatarImageLocal = async (req, res) => {
       .status(StatusCodes.BAD_REQUEST)
       .json({ message: "No file are uploaded" });
   }
-  console.log(req.files);
   const userImage = req.files.files;
   if (!userImage.mimetype.startsWith("image")) {
     return res
@@ -28,7 +26,7 @@ const uploadUserAvatarImageLocal = async (req, res) => {
 
   const imagePath = path.join(
     __dirname,
-    "../public/uploads/" + `${userImage.name}`
+    "../public/uploads" + `${userImage.name}`
   );
 
   await userImage.mv(imagePath);
@@ -40,7 +38,7 @@ const uploadUserAvatarImageLocal = async (req, res) => {
 const uploadUserAvatarImage = async (req, res) => {
   try {
     const result = await cloudinary.uploader.upload(
-      req.files.files.tempFilePath,
+      "uploadsCollegeId.jpg",
       { use_filename: true, unique_filename: false },
       function (error, result) {
         console.log(result, error);

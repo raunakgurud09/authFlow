@@ -6,8 +6,8 @@ const {
 
 const uploadImageUserAvatar = async (req, res) => {
   try {
-    uploadUserAvatarImageLocal(req, res);
-    uploadUserAvatarImage(req, res);
+    // uploadUserAvatarImageLocal(req, res);
+    // uploadUserAvatarImage(req, res);
   } catch (error) {
     res.send("uploadImageUserAvatar");
   }
