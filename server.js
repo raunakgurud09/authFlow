@@ -30,7 +30,7 @@ app.use("/api/v1/user", userRoutes);
 //  port
 const start = async () => {
   try {
-    await connectDB(dotenvConfig.URI);
+    await connectDB(dotenvConfig.MONGO_URI);
     app.listen(dotenvConfig.PORT, dotenvConfig.HOST, () => {
       console.log(
         `APP LISTENING ON http://${dotenvConfig.HOST}:${dotenvConfig.PORT}`
