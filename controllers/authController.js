@@ -2,6 +2,7 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const { StatusCodes } = require("http-status-codes");
 const jwt = require("jsonwebtoken");
+const sendMail = require("../utils/sendMails");
 
 const register = async (req, res) => {
   const { name, email, password, roles } = req.body;
@@ -136,8 +137,19 @@ const logout = async (req, res) => {
   return res.status(StatusCodes.NO_CONTENT).json("No cookies found");
 };
 
+const resetPassword = async (req, res) => {
+  // res.send("hi");
+  try {
+    const result = await sendMail();
+    res.json({ result });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   register,
   login,
   logout,
+  resetPassword,
 };
