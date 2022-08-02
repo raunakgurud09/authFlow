@@ -8,7 +8,7 @@ const app = express();
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
 
-//  imports
+//  import configes
 const connectDB = require("./configs/DbConnect");
 const dotenvConfig = require("./configs/dotenv.config");
 const { cloudinary } = require("./configs/cloudinary");

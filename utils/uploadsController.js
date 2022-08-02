@@ -2,7 +2,6 @@ const path = require("path");
 const fs = require("fs");
 const { StatusCodes } = require("http-status-codes");
 const { cloudinary } = require("../configs/cloudinary");
-// const cloudinary = require("cloudinary");
 
 const uploadUserAvatarImageLocal = async (req, res) => {
   if (!req.files) {
