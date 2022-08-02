@@ -6,6 +6,7 @@ const app = express();
 
 //  rest of the packages
 const cors = require("cors");
+const fileUpload = require("express-fileupload");
 
 //  imports
 const connectDB = require("./configs/DbConnect");
@@ -17,6 +18,7 @@ const authRoutes = require("./routes/authRoutes");
 
 //  middleware
 app.use(express.json());
+app.use(fileUpload({ useTempFiles: true }));
 
 //  routes config
 app.use("/api/v1/auth", authRoutes);
