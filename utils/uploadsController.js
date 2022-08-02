@@ -1,9 +1,8 @@
 const path = require("path");
 const fs = require("fs");
 const { StatusCodes } = require("http-status-codes");
-const cloudinaryConfiged = require("../configs/cloudinary");
-const cloudinary = require("cloudinary");
-// require("../public/uploads");
+const { cloudinary } = require("../configs/cloudinary");
+// const cloudinary = require("cloudinary");
 
 const uploadUserAvatarImageLocal = async (req, res) => {
   if (!req.files) {
@@ -39,7 +38,7 @@ const uploadUserAvatarImageLocal = async (req, res) => {
 
 const uploadUserAvatarImage = async (req, res) => {
   try {
-    const result = await cloudinary.uploader.upload(
+    const uploadedResponse = await cloudinary.uploader.upload(
       req.files.files.tempFilePath,
       { use_filename: true, unique_filename: false },
       function (error, result) {
@@ -48,7 +47,7 @@ const uploadUserAvatarImage = async (req, res) => {
     );
     return res
       .status(StatusCodes.OK)
-      .json({ image: { src: result.secure_url } });
+      .json({ image: { src: uploadedResponse.secure_url } });
   } catch (error) {
     console.log(error);
   }
