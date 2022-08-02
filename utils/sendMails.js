@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+require("dotenv").config();
 
 const sendMail = async () => {
   let testAccount = await nodemailer.createTestAccount();
@@ -7,9 +8,8 @@ const sendMail = async () => {
     port: 465,
     secure: true,
     auth: {
-      user: "raunakgurud09@gmail.com",
-      pass: "bnfbarujvesodqvu",
-      //bnfbarujvesodqvu
+      user: process.env.GMAIL_USER_EMAIL,
+      pass: process.env.GMAIL_USER_APP_PASSWORD,
     },
   });
   const mailOptions = {
@@ -27,6 +27,5 @@ const sendMail = async () => {
     }
   });
 };
-
 
 module.exports = sendMail;
