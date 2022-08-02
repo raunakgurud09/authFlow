@@ -32,6 +32,10 @@ const UserSchema = new mongoose.Schema({
     admin: String,
     // enum: ["superadmin", "admin", "user"],
   },
+  image: {
+    type: String,
+    default: "",
+  },
   refreshToken: [String],
 });
 
