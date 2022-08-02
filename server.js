@@ -15,6 +15,7 @@ const dotenvConfig = require("./configs/dotenv.config");
 
 //  routersImport
 const authRoutes = require("./routes/authRoutes");
+const userRoutes = require('./routes/userRoutes')
 
 //  middleware
 app.use(express.json());
@@ -22,6 +23,7 @@ app.use(fileUpload({ useTempFiles: true }));
 
 //  routes config
 app.use("/api/v1/auth", authRoutes);
+app.use('/api/v1/user',userRoutes)
 
 //  port
 const start = async () => {

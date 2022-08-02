@@ -1,4 +1,4 @@
-const Rotuer = require("express").Router();
+const Router = require("express").Router();
 
 const { uploadImageUserAvatar } = require("../controllers/userController");
 
