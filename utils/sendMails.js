@@ -1,17 +1,10 @@
 const nodemailer = require("nodemailer");
+const nodemailerConfig = require("../configs/nodemailer");
 require("dotenv").config();
 
 const sendMail = async () => {
   let testAccount = await nodemailer.createTestAccount();
-  let transport = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    auth: {
-      user: process.env.GMAIL_USER_EMAIL,
-      pass: process.env.GMAIL_USER_APP_PASSWORD,
-    },
-  });
+  let transport = nodemailer.createTransport(nodemailerConfig);
   const mailOptions = {
     from: process.env.GMAIL_USER_EMAIL, // Sender addresss
     to: "raunakgurud2002@gmail.com", // List of recipients
