@@ -13,7 +13,7 @@ const sendMail = async () => {
     },
   });
   const mailOptions = {
-    from: "raunakgurud09@gmail.com", // Sender address
+    from: process.env.GMAIL_USER_EMAIL, // Sender addresss
     to: "raunakgurud2002@gmail.com", // List of recipients
     subject: "Node Mailer", // Subject line
     text: "Hello People!, Welcome to Bacancy!", // Plain text body
