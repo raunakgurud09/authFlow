@@ -138,10 +138,16 @@ const logout = async (req, res) => {
 };
 
 const resetPassword = async (req, res) => {
-  // res.send("hi");
   try {
-    const result = await sendMail();
-    res.json({ result });
+    const { email } = req.body;
+    if (!email) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ message: "Email is required" });
+    }
+    console.log(email);
+    res.status(StatusCodes.OK).json({message:"email send"});
+    // const result = await sendMail();
   } catch (error) {
     console.log(error);
   }
