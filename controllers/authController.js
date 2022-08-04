@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const OTP = require("../models/OTP");
 const bcrypt = require("bcryptjs");
 const { StatusCodes } = require("http-status-codes");
 const jwt = require("jsonwebtoken");
@@ -145,8 +146,20 @@ const resetPassword = async (req, res) => {
         .status(StatusCodes.BAD_REQUEST)
         .json({ message: "Email is required" });
     }
-    console.log(email);
-    res.status(StatusCodes.OK).json({message:"email send"});
+
+    const foundUser = await User.findOne({ email }).exec();
+    if (!foundUser) {
+      return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ message: "Email not found" });
+    }
+
+    
+
+
+    const result = await sendMail(email);
+
+    res.status(StatusCodes.OK).json({ result });
     // const result = await sendMail();
   } catch (error) {
     console.log(error);

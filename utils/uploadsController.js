@@ -17,7 +17,7 @@ const uploadUserAvatarImageLocal = async (req, res) => {
       .json({ message: "Please Upload Image" });
   }
 
-  const maxSize = 5 * 1024 * 1024; //5MB
+  const maxSize = 1024 * 1024; //1MB
   if (userImage.size > maxSize) {
     return res
       .status(StatusCodes.BAD_REQUEST)
