@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const { StatusCodes } = require("http-status-codes");
 const jwt = require("jsonwebtoken");
 const sendMail = require("../utils/sendMails");
+const optGenerater = require("otp-generator");
 
 const register = async (req, res) => {
   const { name, email, password, roles } = req.body;
@@ -138,7 +139,7 @@ const logout = async (req, res) => {
   return res.status(StatusCodes.NO_CONTENT).json("No cookies found");
 };
 
-const resetPassword = async (req, res) => {
+const sendOTP = async (req, res) => {
   try {
     const { email } = req.body;
     if (!email) {
@@ -154,11 +155,21 @@ const resetPassword = async (req, res) => {
         .json({ message: "Email not found" });
     }
 
-    
+    const optCode = optGenerater.generate(6, {
+      digits: true,
+      lowerCaseAlphabets: false,
+      upperCaseAlphabets: false,
+      specialChars: false,
+    });
+    const expireTime = new Date().getTime() + 300 * 1000; // 5 MIN
 
-
-    const result = await sendMail(email);
-
+    const optSend = await OTP.create({
+      email,
+      expiresIn: expireTime,
+      code: optCode,
+    });
+    // const result = optSend;
+    const result = await sendMail(email, optCode);
     res.status(StatusCodes.OK).json({ result });
     // const result = await sendMail();
   } catch (error) {
@@ -166,9 +177,22 @@ const resetPassword = async (req, res) => {
   }
 };
 
+const resetPassword = async (req, res) => {
+  const { code, email } = req.body;
+  if (!code && !email) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ message: "Code and Email is needed" });
+  }
+
+  const foundUser = User.findOne({ email, code });
+  console.log(foundUser)
+};
+
 module.exports = {
   register,
   login,
   logout,
+  sendOTP,
   resetPassword,
 };

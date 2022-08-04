@@ -9,7 +9,7 @@ const OTPSchema = new mongoose.Schema({
     type: Number,
     default: "5m",
   },
-  otp: {
+  code: {
     type: String,
   },
 });
