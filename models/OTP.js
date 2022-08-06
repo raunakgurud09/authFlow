@@ -5,6 +5,9 @@ const OTPSchema = new mongoose.Schema({
     type: String,
     required: [true, "Email is required"],
   },
+  phoneNumber: {
+    type: Number,
+  },
   expiresIn: {
     type: Number,
     default: "5m",

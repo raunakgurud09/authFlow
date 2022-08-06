@@ -169,7 +169,7 @@ const sendOTP = async (req, res) => {
       code: optCode,
     });
     // const result = optSend;
-    const result = await sendMail(email, optCode);
+    const result = sendMail(email, optCode);
     res.status(StatusCodes.OK).json({ result });
     // const result = await sendMail();
   } catch (error) {
@@ -185,8 +185,12 @@ const resetPassword = async (req, res) => {
       .json({ message: "Code and Email is needed" });
   }
 
-  const foundUser = User.findOne({ email, code });
-  console.log(foundUser)
+  const otpCheck = await OTP.findOne({ code });
+
+  console.log(otpCheck.email);
+
+  const foundUser = User.findOne({ email });
+  // console.log(foundUser);
 };
 
 module.exports = {
