@@ -185,9 +185,9 @@ const resetPassword = async (req, res) => {
       .json({ message: "Code and Email is needed" });
   }
 
-  const otpCheck = await OTP.findOne({ code });
+  const otpCheck = await OTP.findOne({ code }).exec();
 
-  console.log(otpCheck.email);
+  console.log(otpCheck);
 
   const foundUser = User.findOne({ email });
   // console.log(foundUser);
