@@ -10,7 +10,7 @@ const sendMail = require("../utils/sendMails");
 const changePassword = require("../utils/changePassword")
 
 const register = async (req, res) => {
-  const { name, email, password, roles } = req.body;
+  const { name, email, password, role } = req.body;
   if ((!email, !password)) {
     return res
       .status(StatusCodes.BAD_REQUEST)
@@ -33,9 +33,10 @@ const register = async (req, res) => {
     const user = await User.create({
       name,
       email,
-      roles: roles || "user",
+      role: role || "user",
       password: hashPassword,
     });
+
 
     res.status(StatusCodes.CREATED).json({ user });
   } catch (error) {
@@ -65,7 +66,7 @@ const login = async (req, res) => {
 
   const isMatch = await bcrypt.compare(password, foundUser.password);
   if (isMatch) {
-    const roles = Object.values(foundUser.roles).filter(Boolean);
+    const role = Object.values(foundUser.role).filter(Boolean);
 
     const accessToken = jwt.sign(
       { username: foundUser.username },
@@ -111,7 +112,7 @@ const login = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000,
     });
 
-    res.json({ roles, accessToken });
+    res.json({ role, accessToken });
   } else {
     res.status(StatusCodes.UNAUTHORIZED);
   }
