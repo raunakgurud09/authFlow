@@ -17,8 +17,6 @@ const register = async (req, res) => {
       .json({ message: "Email and Password are required" });
   }
 
-  // const newRoles = roles;
-
   const emailAlreadyExists = await User.findOne({ email });
   if (emailAlreadyExists) {
     return res
@@ -27,7 +25,6 @@ const register = async (req, res) => {
   }
 
   const hashPassword = await bcrypt.hash(password, 10);
-  // const verificationToken = ;
 
   try {
     const user = await User.create({
@@ -36,7 +33,6 @@ const register = async (req, res) => {
       role: role || "user",
       password: hashPassword,
     });
-
 
     res.status(StatusCodes.CREATED).json({ user });
   } catch (error) {
