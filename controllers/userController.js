@@ -9,7 +9,8 @@ const uploadImageUserAvatar = async (req, res) => {
     // uploadUserAvatarImageLocal(req, res);
     // uploadUserAvatarImage(req, res);
   } catch (error) {
-    res.send("uploadImageUserAvatar");
+    // res.send("uploadImageUserAvatar");
+    console.log(error)
   }
 };
 
