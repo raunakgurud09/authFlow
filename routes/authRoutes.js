@@ -10,11 +10,11 @@ const {
   checkOTP,
 } = require("../controllers/authController");
 
-Router.post("/register", register);
-Router.post("/login", login);
-Router.delete("/logout", logout);
-Router.post("/send-otp", sendOTP);
-Router.post("/check-otp", checkOTP);
-Router.post("/reset-password", resetPassword);
+Router.route("/register").post(register);
+Router.route("/login").post(login);
+Router.route("/logout").delete(logout);
+Router.route("/send-otp").post(sendOTP);
+Router.route("/check-otp").post(checkOTP);
+Router.route("/reset-password").post(resetPassword);
 
 module.exports = Router;
