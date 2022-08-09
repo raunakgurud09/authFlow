@@ -1,5 +1,4 @@
 const Router = require("express").Router();
-// const Router = express
 
 const {
   register,
@@ -7,14 +6,17 @@ const {
   logout,
   resetPassword,
   sendOTP,
-  checkOTP,
 } = require("../controllers/authController");
+
+const {
+  checkOTP
+} = require("../middlewares/checkOtp")
+
 
 Router.route("/register").post(register);
 Router.route("/login").post(login);
 Router.route("/logout").delete(logout);
 Router.route("/send-otp").post(sendOTP);
-Router.route("/check-otp").post(checkOTP);
-Router.route("/reset-password").post(resetPassword);
+Router.route("/reset-password").post(checkOTP, resetPassword);
 
 module.exports = Router;

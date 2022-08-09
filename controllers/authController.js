@@ -177,32 +177,6 @@ const sendOTP = async (req, res) => {
   }
 };
 
-const checkOTP = async (req, res) => {
-  const { code, email } = req.body;
-  if (!code && !email) {
-    return res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ message: "Code and Email is needed" });
-  }
-
-  const otpCheck = await OTP.findOne({ email, code });
-
-  if (!otpCheck) {
-    return res.status(StatusCodes.BAD_REQUEST).json({ message: "Code is invalid" })
-  }
-  const currentTime = new Date().getTime()
-  console.log(currentTime)
-  if (otpCheck.expiresIn > currentTime) {
-    // reset password
-    try {
-      console.log('reset password')
-    } catch (error) {
-      console.log(error)
-    }
-  } else {
-    return res.status(StatusCodes.UNAUTHORIZED).json({ message: "This code is now invalid try new code" })
-  }
-};
 
 const resetPassword = async (req, res) => {
   res.send('resetPassword');
@@ -213,6 +187,5 @@ module.exports = {
   login,
   logout,
   sendOTP,
-  checkOTP,
   resetPassword,
 };
