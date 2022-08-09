@@ -1,10 +1,13 @@
 const User = require("../models/User");
 const OTP = require("../models/OTP");
+
 const bcrypt = require("bcryptjs");
 const { StatusCodes } = require("http-status-codes");
 const jwt = require("jsonwebtoken");
-const sendMail = require("../utils/sendMails");
 const optGenerater = require("otp-generator");
+
+const sendMail = require("../utils/sendMails");
+const changePassword = require("../utils/changePassword")
 
 const register = async (req, res) => {
   const { name, email, password, roles } = req.body;
@@ -149,11 +152,6 @@ const sendOTP = async (req, res) => {
     }
 
     const foundUser = await User.findOne({ email }).exec();
-    if (!foundUser) {
-      return res
-        .status(StatusCodes.UNAUTHORIZED)
-        .json({ message: "Email not found" });
-    }
 
     const optCode = optGenerater.generate(6, {
       digits: true,
@@ -179,7 +177,16 @@ const sendOTP = async (req, res) => {
 
 
 const resetPassword = async (req, res) => {
-  res.send('resetPassword');
+  const { email, password } = req.body
+  try {
+    changePassword(email, password)
+    res.status(StatusCodes.OK).json({ msg: 'Success! Password Updated.' });
+  } catch (error) {
+    console.log(error)
+  }
+
+
+
 }
 
 module.exports = {

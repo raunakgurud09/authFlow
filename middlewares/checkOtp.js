@@ -18,7 +18,7 @@ const checkOTP = async (req, res, next) => {
     if (otpCheck.expiresIn > currentTime) {
         // reset password
     } else {
-        return res.status(StatusCodes.UNAUTHORIZED).json({ message: "This code is now invalid try new code" })
+        // return res.status(StatusCodes.UNAUTHORIZED).json({ message: "This code is now invalid try new code" })
     }
     next();
 };
