@@ -34,6 +34,7 @@ const register = async (req, res) => {
       password: hashPassword,
     });
 
+    
     res.status(StatusCodes.CREATED).json({ user });
   } catch (error) {
     res
