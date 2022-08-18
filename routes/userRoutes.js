@@ -1,7 +1,10 @@
 const Router = require("express").Router();
 
-const { uploadImageUserAvatar } = require("../controllers/userController");
+const { uploadImageUserAvatar, test } = require("../controllers/userController");
+
+const { authorizePermissions } = require("../middlewares/authentication")
 
 Router.post("/upload-avatar", uploadImageUserAvatar);
+Router.get("/test", authorizePermissions, test);
 
 module.exports = Router;

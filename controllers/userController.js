@@ -16,6 +16,12 @@ const uploadImageUserAvatar = async (req, res) => {
   }
 };
 
+
+const test = async (req, res) => {
+  res.send("test")
+}
+
 module.exports = {
   uploadImageUserAvatar,
+  test,
 };
