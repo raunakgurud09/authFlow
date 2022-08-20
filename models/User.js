@@ -32,7 +32,11 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
-  refreshToken: [String],
+  accessToken: {
+    type: String,
+    required: [true, 'access token is required']
+  },
+  refreshToken: String,
 });
 
 module.exports = mongoose.model("User", UserSchema);

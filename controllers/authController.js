@@ -24,6 +24,7 @@ const register = async (req, res) => {
       .json({ message: "Email already exist" });
   }
 
+  //pre userSchema
   const hashPassword = await bcrypt.hash(password, 10);
 
   try {
