@@ -25,14 +25,13 @@ const register = async (req, res) => {
   }
 
   //pre userSchema
-  const hashPassword = await bcrypt.hash(password, 10);
 
   try {
     const user = await User.create({
       name,
       email,
       role: role || "user",
-      password: hashPassword,
+      password,
     });
 
 
@@ -55,68 +54,75 @@ const login = async (req, res) => {
       .json({ message: "Email and password are required." });
   }
 
-  const foundUser = await User.findOne({ email }).exec();
-  if (!foundUser) {
+  const user = await User.findOne({ email });
+  if (!user) {
     return res
       .status(StatusCodes.UNAUTHORIZED)
       .json({ message: "No user with this email is found" });
   }
 
-  const isMatch = await bcrypt.compare(password, foundUser.password);
+  const isMatch = await user.comparePassword(password)
+
   if (isMatch) {
-    const role = foundUser.role;
-
-    const accessToken = jwt.sign(
-      { username: foundUser.username },
-      process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "10s" }
-    );
-
-    const newRefreshToken = jwt.sign(
-      { username: foundUser.username },
-      process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: "1d" }
-    );
-
-    let newRefreshTokenArray = !cookies?.jwt
-      ? foundUser.refreshToken
-      : foundUser.refreshToken.filter((rt) => rt !== cookies.jwt);
-
-    if (cookies?.jwt) {
-      const refreshToken = cookies.jwt;
-      const foundToken = await User.findOne({ refreshToken }).exec();
-
-      if (!foundToken) {
-        console.log(`attempt refresh token reuse to login`);
-        newRefreshTokenArray = [];
-      }
-
-      res.clearCookies("jwt", {
-        httpOnly: true,
-        sameSite: "None",
-        secure: true,
-      });
-    }
-
-    foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken];
-    const result = await foundUser.save();
-
-    console.log(result);
-
-    res.cookie("jwt", newRefreshToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "None",
-      maxAge: 24 * 60 * 60 * 1000,
-    });
-
-    res.json({ role, accessToken });
+    res.send('login')
   } else {
-    res.status(StatusCodes.UNAUTHORIZED);
+    res.send('error')
   }
+
 };
 
 
+// if (isMatch) {
+//   const role = foundUser.role;
+
+//   const accessToken = jwt.sign(
+//     { username: foundUser.username },
+//     process.env.ACCESS_TOKEN_SECRET,
+//     { expiresIn: "10s" }
+//   );
+
+//   const newRefreshToken = jwt.sign(
+//     { username: foundUser.username },
+//     process.env.REFRESH_TOKEN_SECRET,
+//     { expiresIn: "1d" }
+//   );
+
+//   let newRefreshTokenArray = !cookies?.jwt
+//     ? foundUser.refreshToken
+//     : foundUser.refreshToken.filter((rt) => rt !== cookies.jwt);
+
+//   if (cookies?.jwt) {
+//     const refreshToken = cookies.jwt;
+//     const foundToken = await User.findOne({ refreshToken }).exec();
+
+//     if (!foundToken) {
+//       console.log(`attempt refresh token reuse to login`);
+//       newRefreshTokenArray = [];
+//     }
+
+//     res.clearCookies("jwt", {
+//       httpOnly: true,
+//       sameSite: "None",
+//       secure: true,
+//     });
+//   }
+
+//   foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken];
+//   const result = await foundUser.save();
+
+//   console.log(result);
+
+//   res.cookie("jwt", newRefreshToken, {
+//     httpOnly: true,
+//     secure: true,
+//     sameSite: "None",
+//     maxAge: 24 * 60 * 60 * 1000,
+//   });
+
+//   res.json({ role, accessToken });
+// } else {
+//   res.status(StatusCodes.UNAUTHORIZED);
+// }
 
 
 const logout = async (req, res) => {
