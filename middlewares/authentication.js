@@ -8,6 +8,12 @@ const authenticateUser = async (req, res, next) => {
     console.log(authHeader)
 };
 
+const authUser = async (req, res, next) => {
+    if (req.user == null) {
+        return res.status(StatusCodes.UNAUTHORIZED).send('not allowed')
+    }
+}
+
 
 const authorizePermissions = (...roles) => {
     return (req, res, next) => {
@@ -23,4 +29,5 @@ const authorizePermissions = (...roles) => {
 module.exports = {
     authenticateUser,
     authorizePermissions,
+    authUser
 }

@@ -34,7 +34,7 @@ const register = async (req, res) => {
       password: hashPassword,
     });
 
-    
+
     res.status(StatusCodes.CREATED).json({ user });
   } catch (error) {
     res
@@ -63,7 +63,7 @@ const login = async (req, res) => {
 
   const isMatch = await bcrypt.compare(password, foundUser.password);
   if (isMatch) {
-    const role = Object.values(foundUser.role).filter(Boolean);
+    const role = foundUser.role;
 
     const accessToken = jwt.sign(
       { username: foundUser.username },
@@ -114,6 +114,9 @@ const login = async (req, res) => {
     res.status(StatusCodes.UNAUTHORIZED);
   }
 };
+
+
+
 
 const logout = async (req, res) => {
   const cookies = res.cookies;
