@@ -16,6 +16,24 @@ const isTokenValid = (token) => {
 const attachCookiesToResponse = ({ req, user, refreshToken }) => {
     const accessTokenJWT = createJWT({ payload: { user } })
     const refreshTokenJWT = createJWT({ payload: { user, refreshToken } })
+
+    const oneDayExpire = 1000 * 60 * 60 * 24; //24 hours
+    const longExpire = 1000 * 60 * 60 * 24 * 30; //30 days
+
+    res.cookie('accessToken', accessTokenJWT, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        signed: true,
+        expires: new Date(new Date.now() + oneDayExpire)
+    });
+
+    res.cookie('refreshToken', refreshTokenJWT, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        signed: true,
+        expires: new Date(new Date.now() + longExpire)
+    });
+
 }
 
 
@@ -23,5 +41,6 @@ const attachCookiesToResponse = ({ req, user, refreshToken }) => {
 module.exports = {
     createJWT,
     isTokenValid,
-    createTokenUser
+    createTokenUser,
+    attachCookiesToResponse,
 }
