@@ -37,9 +37,8 @@ const authUser = async (req, res, next) => {
             user: payload.user,
             refreshToken: existingToken.refreshToken,
         });
-        req.user = payload.user
+        req.user = payload.users
         next();
-
     } catch (error) {
         console.log(error)
     }
@@ -53,7 +52,7 @@ const authorizePermissions = (...roles) => {
         if (!roles.includes(req.user.role)) {
             return res
                 .status(StatusCodes.UNAUTHORIZED)
-                .json({ message: "No user with this email is found" });
+                .json({ message: "Unauthorized to access this route" });
         }
         next();
     }
