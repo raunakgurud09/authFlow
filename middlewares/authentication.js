@@ -1,5 +1,6 @@
 const { signedCookies } = require("cookie-parser");
 const { StatusCodes } = require("http-status-codes");
+const User = require("../models/User");
 const { isTokenValid, attachCookiesToResponse } = require("../utils/jwt");
 
 
@@ -18,23 +19,33 @@ const authUser = async (req, res, next) => {
         if (accessToken) {
             const payload = isTokenValid(accessToken)
             req.user = payload.user
-            next();
+            return next();
         }
 
         const payload = isTokenValid(refreshToken);
 
+        const existingToken = User.findOne({
+            user: payload.user.userId,
+            refreshToken: payload.refreshToken,
+        })
 
-        attachCookiesToResponse({req,user:payload.user,refreshToken})
-
+        if (!existingToken) {
+            res.status(StatusCodes.UNAUTHORIZED).json({ message: "Authentication Invalid" })
+        }
+        attachCookiesToResponse({
+            res,
+            user: payload.user,
+            refreshToken: existingToken.refreshToken,
+        });
         req.user = payload.user
         next();
 
     } catch (error) {
         console.log(error)
     }
-
     next();
 }
+
 
 
 const authorizePermissions = (...roles) => {
