@@ -8,6 +8,7 @@ const optGenerater = require("otp-generator");
 
 const sendMail = require("../utils/sendMails");
 const changePassword = require("../utils/changePassword")
+const { createTokenUser } = require("../utils/jwt")
 
 const register = async (req, res) => {
   const { name, email, password, role } = req.body;
@@ -35,6 +36,7 @@ const register = async (req, res) => {
     });
 
 
+    await user.save();
     res.status(StatusCodes.CREATED).json({ user });
   } catch (error) {
     res
@@ -62,12 +64,14 @@ const login = async (req, res) => {
   }
 
   const isMatch = await user.comparePassword(password)
-
-  if (isMatch) {
-    res.send('login')
-  } else {
-    res.send('error')
+  if (!isMatch) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: "Invaild creadentials" });
   }
+
+  const tokenUser = createTokenUser(user)
+  console.log(tokenUser)
 
 };
 
