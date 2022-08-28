@@ -19,7 +19,7 @@ const uploadImageUserAvatar = async (req, res) => {
 
 const test = async (req, res) => {
   // res.json({ req })
-  console.log(req.body)
+  // console.log()
   res.send("test")
 }
 

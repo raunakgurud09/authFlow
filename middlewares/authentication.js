@@ -1,3 +1,4 @@
+const { signedCookies } = require("cookie-parser");
 const { StatusCodes } = require("http-status-codes");
 
 
@@ -9,9 +10,10 @@ const authenticateUser = async (req, res, next) => {
 };
 
 const authUser = async (req, res, next) => {
-    if (req.user == null) {
-        return res.status(StatusCodes.UNAUTHORIZED).send('not allowed')
-    }
+    console.log(req.Cookie)
+    next();
+    // const { accessToken, refreshToken } = req.Cookie;
+    // console.log(accessToken, refreshToken)
 }
 
 
