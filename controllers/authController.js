@@ -8,7 +8,7 @@ const optGenerater = require("otp-generator");
 
 const sendMail = require("../utils/sendMails");
 const changePassword = require("../utils/changePassword")
-const { createTokenUser } = require("../utils/jwt")
+const { createTokenUser, attachCookiesToResponse } = require("../utils/jwt")
 
 const register = async (req, res) => {
   const { name, email, password, role } = req.body;
@@ -71,7 +71,21 @@ const login = async (req, res) => {
   }
 
   const tokenUser = createTokenUser(user)
-  console.log(tokenUser)
+
+  let refreshToken = '';
+  const existingToken = user.refreshToken;
+  if (existingToken) {
+    refreshToken = existingToken;
+    attachCookiesToResponse({ res, user: tokenUser, refreshToken })
+    res.status(StatusCodes.OK).json({ user: tokenUser })
+  }
+
+  refreshToken = crypto.randomBytes(40).toString('hex');
+  user.refreshToken = refreshToken
+
+  attachCookiesToResponse({ res, user: tokenUser, refreshToken })
+  res.status(StatusCodes.OK).json({ user: tokenUser })
+
 
 };
 
