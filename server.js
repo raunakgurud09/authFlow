@@ -5,6 +5,7 @@ const express = require("express");
 const app = express();
 
 //  rest of the packages
+const cookieParser = require('cookie-parser')
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
 
@@ -20,6 +21,7 @@ const userRoutes = require("./routes/userRoutes");
 
 //  middleware
 app.use(express.json());
+app.use(cookieParser(process.env.JWT_SECRET))
 app.use(fileUpload({ useTempFiles: true }));
 
 

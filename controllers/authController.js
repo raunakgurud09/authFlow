@@ -1,6 +1,8 @@
 const User = require("../models/User");
 const OTP = require("../models/OTP");
 
+const crypto = require('crypto')
+
 const bcrypt = require("bcryptjs");
 const { StatusCodes } = require("http-status-codes");
 const jwt = require("jsonwebtoken");
@@ -88,60 +90,6 @@ const login = async (req, res) => {
 
 
 };
-
-
-// if (isMatch) {
-//   const role = foundUser.role;
-
-//   const accessToken = jwt.sign(
-//     { username: foundUser.username },
-//     process.env.ACCESS_TOKEN_SECRET,
-//     { expiresIn: "10s" }
-//   );
-
-//   const newRefreshToken = jwt.sign(
-//     { username: foundUser.username },
-//     process.env.REFRESH_TOKEN_SECRET,
-//     { expiresIn: "1d" }
-//   );
-
-//   let newRefreshTokenArray = !cookies?.jwt
-//     ? foundUser.refreshToken
-//     : foundUser.refreshToken.filter((rt) => rt !== cookies.jwt);
-
-//   if (cookies?.jwt) {
-//     const refreshToken = cookies.jwt;
-//     const foundToken = await User.findOne({ refreshToken }).exec();
-
-//     if (!foundToken) {
-//       console.log(`attempt refresh token reuse to login`);
-//       newRefreshTokenArray = [];
-//     }
-
-//     res.clearCookies("jwt", {
-//       httpOnly: true,
-//       sameSite: "None",
-//       secure: true,
-//     });
-//   }
-
-//   foundUser.refreshToken = [...newRefreshTokenArray, newRefreshToken];
-//   const result = await foundUser.save();
-
-//   console.log(result);
-
-//   res.cookie("jwt", newRefreshToken, {
-//     httpOnly: true,
-//     secure: true,
-//     sameSite: "None",
-//     maxAge: 24 * 60 * 60 * 1000,
-//   });
-
-//   res.json({ role, accessToken });
-// } else {
-//   res.status(StatusCodes.UNAUTHORIZED);
-// }
-
 
 const logout = async (req, res) => {
   const cookies = res.cookies;
