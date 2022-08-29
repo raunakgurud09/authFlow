@@ -161,10 +161,23 @@ const resetPassword = async (req, res) => {
 
 }
 
+const getAllUsers = (req, res) => {
+
+  console.log('users')
+  User.find({}, function (err, result) {
+    if (err) {
+      console.log(err)
+    }
+    res.json(result)
+  })
+
+}
+
 module.exports = {
   register,
   login,
   logout,
   sendOTP,
   resetPassword,
+  getAllUsers,
 };

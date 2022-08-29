@@ -6,7 +6,5 @@ const { authorizePermissions, authUser } = require("../middlewares/authenticatio
 
 Router.post("/upload-avatar", uploadImageUserAvatar);
 Router.get("/test", authUser, authorizePermissions('admin'), test)
-// Router.get("/test", authUser, test)
-// Router.get("/test", test)
 
 module.exports = Router;

@@ -18,6 +18,7 @@ const { cloudinary } = require("./configs/cloudinary");
 //  routersImport
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
+const adminRoute = require("./routes/adminRoutes")
 
 //  middleware
 app.use(express.json());
@@ -28,6 +29,7 @@ app.use(fileUpload({ useTempFiles: true }));
 //  routes config
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/admin", adminRoute)
 
 //  port
 const start = async () => {
