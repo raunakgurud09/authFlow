@@ -1,3 +1,4 @@
+const { StatusCodes } = require("http-status-codes");
 const User = require("../models/User");
 
 const getAllUsers = (req, res) => {
@@ -12,14 +13,9 @@ const getAllUsers = (req, res) => {
 }
 
 const getUserById = async (req, res) => {
-
     const { params: { id: userId, } } = req
-
     const user = await User.findOne({ _id: userId })
-    console.log(user);
-
-    res.send('user')
-
+    res.status(StatusCodes.OK).json(user)
 }
 
 
