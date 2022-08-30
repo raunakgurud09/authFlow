@@ -16,6 +16,11 @@ const uploadImageUserAvatar = async (req, res) => {
   }
 };
 
+const userProfile = async (req, res) => {
+
+  console.log(req.user)
+
+}
 
 const test = async (req, res) => {
   // res.json({ req })
@@ -26,4 +31,5 @@ const test = async (req, res) => {
 module.exports = {
   uploadImageUserAvatar,
   test,
+  userProfile,
 };

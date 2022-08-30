@@ -14,6 +14,9 @@ const authenticateUser = async (req, res, next) => {
 const authUser = async (req, res, next) => {
     // console.log(req.cookies.accessToken)
     const { refreshToken, accessToken } = req.cookies;
+    if (!refreshToken && !accessToken) {
+        return res.status(StatusCodes.BAD_REQUEST).json({ message: "You need to sign in first" })
+    }
 
     try {
         if (accessToken) {
@@ -30,7 +33,7 @@ const authUser = async (req, res, next) => {
         })
 
         if (!existingToken) {
-            res.status(StatusCodes.UNAUTHORIZED).json({ message: "Authentication Invalid" })
+            return res.status(StatusCodes.UNAUTHORIZED).json({ message: "Authentication Invalid" })
         }
         attachCookiesToResponse({
             res,
