@@ -48,8 +48,8 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  const cookies = req.cookies;
-  console.log(`cookies available at login: ${JSON.stringify(cookies)}`);
+  // const cookies = req.cookies;
+  // console.log(`cookies available at login: ${JSON.stringify(cookies)}`);
 
   const { email, password } = req.body;
   if (!email && !password) {
@@ -161,17 +161,6 @@ const resetPassword = async (req, res) => {
 
 }
 
-const getAllUsers = (req, res) => {
-
-  console.log('users')
-  User.find({}, function (err, result) {
-    if (err) {
-      console.log(err)
-    }
-    res.json(result)
-  })
-
-}
 
 module.exports = {
   register,
@@ -179,5 +168,4 @@ module.exports = {
   logout,
   sendOTP,
   resetPassword,
-  getAllUsers,
 };
