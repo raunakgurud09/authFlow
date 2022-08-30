@@ -25,6 +25,11 @@ const updateUserById = async (req, res) => {
     const { body: { role }, params: { id: userId, } } = req
     const user = await User.findOne({ _id: userId })
 
+    if (!user) {
+        res.status(StatusCodes.BAD_REQUEST).json({ message: "No user with this id" })
+    }
+
+    user.role = role;
     res.status(StatusCodes.OK).json(user)
 }
 
