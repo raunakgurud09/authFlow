@@ -11,9 +11,15 @@ const getAllUsers = (req, res) => {
 
 }
 
-const getUserById = (req, res) => {
-    console.log('getUserById');
-    res.send("getUserById")
+const getUserById = async (req, res) => {
+
+    const { params: { id: userId, } } = req
+
+    const user = await User.findOne({ _id: userId })
+    console.log(user);
+
+    res.send('user')
+
 }
 
 
