@@ -27,7 +27,7 @@ const register = async (req, res) => {
       .json({ message: "Email already exist" });
   }
 
-  //pre userSchema
+  //pre userSchema to change password
 
   try {
     const user = await User.create({
