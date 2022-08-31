@@ -12,35 +12,49 @@ const getAllUsers = (req, res) => {
 
 const getUserById = async (req, res) => {
     const { params: { id: userId, } } = req
-    const user = await User.findOne({ _id: userId })
 
-    if (!user) {
-        res.status(StatusCodes.BAD_REQUEST).json({ message: "No user with this id" })
+    try {
+        const user = await User.findOne({ _id: userId })
+        if (!user) {
+            return res.status(StatusCodes.BAD_REQUEST).json({ message: "No user with this id" })
+        }
+        res.status(StatusCodes.OK).json(user)
+    } catch (error) {
+        console.log(error)
     }
-    res.status(StatusCodes.OK).json(user)
 }
 
 const updateUserById = async (req, res) => {
 
     const { body: { role }, params: { id: userId, } } = req
-    const user = await User.findOne({ _id: userId })
+    try {
+        const user = await User.findOne({ _id: userId })
 
-    if (!user) {
-        res.status(StatusCodes.BAD_REQUEST).json({ message: "No user with this id" })
+        if (!user) {
+            return res.status(StatusCodes.BAD_REQUEST).json({ message: "No user with this id" })
+        }
+
+        user.role = role;
+        res.status(StatusCodes.OK).json(user)
+    } catch (error) {
+        console.log(error)
     }
-
-    user.role = role;
-    res.status(StatusCodes.OK).json(user)
 }
 
 const deleteUserById = async (req, res) => {
     const { params: { id: userId, } } = req
-    const user = await User.findByIdAndDelete({ _id: userId })
 
-    if (!user) {
-        res.status(StatusCodes.BAD_REQUEST).json({ message: "No user with this id" })
+    try {
+        const user = await User.findByIdAndDelete({ _id: userId })
+
+        if (!user) {
+            return res.status(StatusCodes.BAD_REQUEST).json({ message: "No user with this id" })
+        }
+        res.status(StatusCodes.OK).json(user)
+
+    } catch (error) {
+        console.log(error)
     }
-    res.status(StatusCodes.OK).json(user)
 }
 
 
