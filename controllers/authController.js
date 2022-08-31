@@ -87,8 +87,7 @@ const login = async (req, res) => {
 
   attachCookiesToResponse({ res, user: tokenUser, refreshToken })
   res.status(StatusCodes.OK).json({ user: tokenUser })
-
-
+  
 };
 
 const logout = async (req, res) => {
