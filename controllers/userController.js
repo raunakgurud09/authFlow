@@ -17,11 +17,8 @@ const uploadImageUserAvatar = async (req, res) => {
 };
 
 const userProfile = async (req, res) => {
-
   res.json(req.user)
-
 }
-
 const test = async (req, res) => {
   // res.json({ req })
   // console.log()

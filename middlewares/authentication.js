@@ -61,8 +61,17 @@ const authorizePermissions = (...roles) => {
     }
 }
 
+const validUser = (req, res, next) => {
+    //This to check wheater he has the write to update     
+    console.log('validUsers')
+    next();
+}
+
+
+
 module.exports = {
     authenticateUser,
     authorizePermissions,
-    authUser
+    authUser,
+    validUser,
 }
