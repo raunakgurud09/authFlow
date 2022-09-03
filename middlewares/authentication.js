@@ -61,10 +61,25 @@ const authorizePermissions = (...roles) => {
     }
 }
 
-const validUser = (req, res, next) => {
-    //This to check wheater he has the write to update     
-    console.log('validUsers')
-    next();
+const validateUser = async (req, res, next) => {
+
+    const user = req.user
+    const { userId } = user
+
+    try {
+
+        const findUser = await User.findOne({ userId })
+        // if(!findUser){
+        //     return res.status(StatusCodes.BAD_REQUEST).json({message:"No user found with this id"})
+        // }
+        if (findUser._id === user.id || user.role === 'admin', 'superadimn') {
+            next();
+        }
+    } catch (error) {
+
+        console.log(error)
+    }
+
 }
 
 
@@ -73,5 +88,5 @@ module.exports = {
     authenticateUser,
     authorizePermissions,
     authUser,
-    validUser,
+    validateUser,
 }

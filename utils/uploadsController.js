@@ -4,6 +4,7 @@ const { StatusCodes } = require("http-status-codes");
 const { cloudinary } = require("../configs/cloudinary");
 
 const uploadUserAvatarImageLocal = async (req, res) => {
+  console.log('hi')
   if (!req.files) {
     return res
       .status(StatusCodes.BAD_REQUEST)
@@ -28,11 +29,13 @@ const uploadUserAvatarImageLocal = async (req, res) => {
     __dirname,
     "../public/uploads/" + `${userImage.name}`
   );
+  try {
+    await userImage.mv(imagePath);
+    return `/uploads/${userImage.name}`;
+  } catch (error) {
+    console.log(error)
+  }
 
-  await userImage.mv(imagePath);
-  res
-    .status(StatusCodes.OK)
-    .json({ image: { src: `/uploads/${userImage.name}` } });
 };
 
 const uploadUserAvatarImage = async (req, res) => {
@@ -44,9 +47,7 @@ const uploadUserAvatarImage = async (req, res) => {
         console.log(result, error);
       }
     );
-    return res
-      .status(StatusCodes.OK)
-      .json({ image: { src: uploadedResponse.secure_url } });
+    return uploadedResponse.secure_url;
   } catch (error) {
     console.log(error);
   }

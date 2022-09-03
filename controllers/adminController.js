@@ -6,7 +6,7 @@ const getAllUsers = (req, res) => {
         if (err) {
             console.log(err)
         }
-        res.json(result)
+        res.json({ result, nbHits: result.length })
     })
 }
 

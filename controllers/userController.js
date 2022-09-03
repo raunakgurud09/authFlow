@@ -1,3 +1,4 @@
+const { StatusCodes } = require("http-status-codes");
 const User = require("../models/User");
 const {
   uploadUserAvatarImageLocal,
@@ -6,10 +7,28 @@ const {
 
 const uploadImageUserAvatar = async (req, res) => {
   try {
-    // uploadUserAvatarImageLocal(req, res);
-    // uploadUserAvatarImage(req, res);
+    
+    // const { imageString } = req.body
+    // const imageString = await uploadUserAvatarImageLocal(req, res);
+    const imageString = await uploadUserAvatarImage(req, res);
+
+
+    if (!imageString) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ message: "You need to send a string" });
+    }
 
     //update the path of the image
+    const { userId } = req.user
+
+    const user = await User.findOne({ _id: userId })
+    console.log(user)
+    user.image = imageString || "123"
+    await user.save();
+
+    res.status(StatusCodes.OK).json({ user })
+
   } catch (error) {
     // res.send("uploadImageUserAvatar");
     console.log(error)

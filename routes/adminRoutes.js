@@ -9,13 +9,13 @@ const { test } = require("../controllers/userController");
 
 Router
     .route("/users")
-    .get(authUser, authorizePermissions('admin'), getAllUsers)
+    .get(authUser, authorizePermissions('admin', 'superadmin'), getAllUsers)
 
 Router
     .route("/user/:id")
-    .get(authUser, authorizePermissions('admin'), getUserById)
-    .patch(authUser, authorizePermissions('admin'), updateUserById)
-    .delete(authUser, authorizePermissions('admin'), deleteUserById)
+    .get(authUser, authorizePermissions('admin', 'superadmin'), getUserById)
+    .patch(authUser, authorizePermissions('admin', 'superadmin'), updateUserById)
+    .delete(authUser, authorizePermissions('admin', 'superadmin'), deleteUserById)
 
 
 Router.get("/test", authUser, authorizePermissions('admin', 'superadmin'), test)
