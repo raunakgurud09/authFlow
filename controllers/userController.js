@@ -7,7 +7,7 @@ const {
 
 const uploadImageUserAvatar = async (req, res) => {
   try {
-    
+
     // const { imageString } = req.body
     // const imageString = await uploadUserAvatarImageLocal(req, res);
     const imageString = await uploadUserAvatarImage(req, res);
@@ -36,7 +36,16 @@ const uploadImageUserAvatar = async (req, res) => {
 };
 
 const userProfile = async (req, res) => {
-  res.json(req.user)
+  const { userId } = req.user
+
+  const user = await User.findOne({ _id: userId })
+  if (!user) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: "No user with this email is found" });
+  }
+  res.status(StatusCodes.OK).json(user)
+
 }
 const test = async (req, res) => {
   // res.json({ req })

@@ -58,20 +58,22 @@ const login = async (req, res) => {
       .json({ message: "Email and password are required." });
   }
 
+
   const user = await User.findOne({ email });
+  console.log(user)
   if (!user) {
     return res
       .status(StatusCodes.UNAUTHORIZED)
       .json({ message: "No user with this email is found" });
   }
 
-  const isMatch = await user.comparePassword(password)
+  const isMatch = await user.comparePassword(password);
+  console.log(isMatch)
   if (!isMatch) {
     return res
       .status(StatusCodes.UNAUTHORIZED)
-      .json({ message: "Invaild creadentials" });
+      .json({ message: "Invaild creadentials..." });
   }
-
   const tokenUser = createTokenUser(user)
 
   let refreshToken = '';
@@ -79,15 +81,18 @@ const login = async (req, res) => {
   if (existingToken) {
     refreshToken = existingToken;
     attachCookiesToResponse({ res, user: tokenUser, refreshToken })
-    res.status(StatusCodes.OK).json({ user: tokenUser })
+    return res.status(StatusCodes.OK).json({ user: tokenUser })
   }
+
+
 
   refreshToken = crypto.randomBytes(40).toString('hex');
   user.refreshToken = refreshToken
+  await user.save();
+
 
   attachCookiesToResponse({ res, user: tokenUser, refreshToken })
   res.status(StatusCodes.OK).json({ user: tokenUser })
-  
 };
 
 const logout = async (req, res) => {

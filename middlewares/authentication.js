@@ -8,7 +8,8 @@ const authenticateUser = async (req, res, next) => {
 
     let token;
     const authHeader = req.header.authorization;
-    console.log(authHeader)
+    
+
 };
 
 const authUser = async (req, res, next) => {
@@ -53,6 +54,7 @@ const authUser = async (req, res, next) => {
 const authorizePermissions = (...roles) => {
     return (req, res, next) => {
         if (!roles.includes(req.user.role)) {
+            console.log(req.user)
             return res
                 .status(StatusCodes.UNAUTHORIZED)
                 .json({ message: "Unauthorized to access this route" });
@@ -68,11 +70,11 @@ const validateUser = async (req, res, next) => {
 
     try {
 
-        const findUser = await User.findOne({ userId })
+        const findUser = await User.findOne({ _id: userId })
         // if(!findUser){
         //     return res.status(StatusCodes.BAD_REQUEST).json({message:"No user found with this id"})
         // }
-        if (findUser._id === user.id || user.role === 'admin', 'superadimn') {
+        if (findUser._id === userId || user.role === 'admin', 'superadimn') {
             next();
         }
     } catch (error) {
