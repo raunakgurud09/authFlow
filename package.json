@@ -27,5 +27,8 @@
     "nodemon": "^2.0.19",
     "otp-generator": "^4.0.0",
     "validator": "^13.7.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.23.0"
   }
 }
