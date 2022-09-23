@@ -27,13 +27,12 @@ const UserSchema = new mongoose.Schema({
   role: {
     type: String,
     default: "user",
-    enum: ["superadmin", "admin", "user"],
+    enum: ["superAdmin", "admin", "user"],
   },
   image: {
     type: String,
     default: "",
   },
-  refreshToken: String,
 });
 
 UserSchema.pre('save', async function () {

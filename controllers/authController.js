@@ -60,7 +60,6 @@ const login = async (req, res) => {
 
 
   const user = await User.findOne({ email });
-  console.log(user)
   if (!user) {
     return res
       .status(StatusCodes.UNAUTHORIZED)
@@ -72,7 +71,7 @@ const login = async (req, res) => {
   if (!isMatch) {
     return res
       .status(StatusCodes.UNAUTHORIZED)
-      .json({ message: "Invaild creadentials..." });
+      .json({ message: "Invalid credentials..." });
   }
   const tokenUser = createTokenUser(user)
 
@@ -91,8 +90,9 @@ const login = async (req, res) => {
   await user.save();
 
 
-  attachCookiesToResponse({ res, user: tokenUser, refreshToken })
-  res.status(StatusCodes.OK).json({ user: tokenUser })
+  const {token} = attachCookiesToResponse({ res, user: tokenUser, refreshToken })
+  // console.log(okay)
+  res.status(StatusCodes.OK).json({ user: tokenUser,token })
 };
 
 const logout = async (req, res) => {

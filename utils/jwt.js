@@ -21,12 +21,14 @@ const attachCookiesToResponse = ({ res, user, refreshToken }) => {
     const oneDayExpire = 1000 * 60 * 60 * 24; //24 hours
     const longExpire = 1000 * 60 * 60 * 24 * 30; //30 days
 
-    res.cookie('accessToken', accessTokenJWT, {
-        httpOnly: true,
-        // secure: process.env.NODE_ENV === 'production',
-        // signed: true,
-        expires: new Date(Date.now() + oneDayExpire)
-    });
+
+    // # access token shouldn't be stored
+    // res.cookie('accessToken', accessTokenJWT, {
+    //     httpOnly: true,
+    //     // secure: process.env.NODE_ENV === 'production',
+    //     // signed: true,
+    //     expires: new Date(Date.now() + oneDayExpire)
+    // });
 
     res.cookie('refreshToken', refreshTokenJWT, {
         httpOnly: true,
@@ -34,6 +36,8 @@ const attachCookiesToResponse = ({ res, user, refreshToken }) => {
         // signed: true,
         expires: new Date(Date.now() + longExpire)
     });
+    
+    return {token : accessTokenJWT}
 }
 
 
