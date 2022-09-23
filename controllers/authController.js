@@ -67,7 +67,6 @@ const login = async (req, res) => {
   }
 
   const isMatch = await user.comparePassword(password);
-  console.log(isMatch)
   if (!isMatch) {
     return res
       .status(StatusCodes.UNAUTHORIZED)

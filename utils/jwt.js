@@ -23,6 +23,7 @@ const attachCookiesToResponse = ({ res, user, refreshToken }) => {
 
 
     // # access token shouldn't be stored
+    
     // res.cookie('accessToken', accessTokenJWT, {
     //     httpOnly: true,
     //     // secure: process.env.NODE_ENV === 'production',
