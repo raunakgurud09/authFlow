@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser')
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
 
-//  import configes
+//  import configs
 const connectDB = require("./configs/DbConnect");
 const dotenvConfig = require("./configs/dotenv.config");
 const { cloudinary } = require("./configs/cloudinary");
