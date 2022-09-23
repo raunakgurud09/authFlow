@@ -95,28 +95,12 @@ const login = async (req, res) => {
 };
 
 const logout = async (req, res) => {
-  const cookies = res.cookies;
-  if (!cookies?.jwt) {
-    res.clearCookie("jwt", { httpOnly: true, sameSite: true, secure: true });
-    return res.status(StatusCodes.NO_CONTENT).json("No cookies found");
-  }
-  const refreshToken = cookies.jwt;
-
-  const foundUser = User.findOne({ refreshToken }).exec();
-  if (!foundUser) {
-    res.clearCookie("jwt", { httpOnly: true, sameSite: true, secure: true });
-    return res.status(StatusCodes.NO_CONTENT).json("No cookies found");
-  }
-
-  //delete form db
-  foundUser.refreshToken = foundUser.refreshToken.filter(
-    (rt) => rt !== refreshToken
-  );
-  const result = await foundUser.save();
-  console.log(result);
-
-  res.clearCookie("jwt", { httpOnly: true, sameSite: true, secure: true });
-  return res.status(StatusCodes.NO_CONTENT).json("No cookies found");
+  const cookie = res.cookie;
+  res.cookie('refreshToken', 'logout', {
+    httpOnly: true,
+    expires: new Date(Date.now()),
+  });
+  res.status(StatusCodes.OK).json({ msg: 'user logged out!' });
 };
 
 const sendOTP = async (req, res) => {
