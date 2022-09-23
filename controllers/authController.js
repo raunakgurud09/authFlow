@@ -6,7 +6,7 @@ const crypto = require('crypto')
 const bcrypt = require("bcryptjs");
 const { StatusCodes } = require("http-status-codes");
 const jwt = require("jsonwebtoken");
-const optGenerater = require("otp-generator");
+const optGenerator = require("otp-generator");
 
 const sendMail = require("../utils/sendMails");
 const changePassword = require("../utils/changePassword")
@@ -131,7 +131,7 @@ const sendOTP = async (req, res) => {
 
     const foundUser = await User.findOne({ email }).exec();
 
-    const optCode = optGenerater.generate(6, {
+    const optCode = optGenerator.generate(6, {
       digits: true,
       lowerCaseAlphabets: false,
       upperCaseAlphabets: false,
