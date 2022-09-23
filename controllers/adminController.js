@@ -1,13 +1,17 @@
 const { StatusCodes } = require("http-status-codes");
 const User = require("../models/User");
 
-const getAllUsers = (req, res) => {
+const getAllUsers = async(req, res) => {
+    const result = await User.find({}).populate('')
+    res.json({ result, nbHits: result.length })
+}
+const getAllUsersRef = (req, res) => {
     User.find({}, function (err, result) {
         if (err) {
             console.log(err)
         }
-        res.json({ result, nbHits: result.length })
     })
+    res.json({ result, nbHits: result.length })
 }
 
 const getUserById = async (req, res) => {
@@ -63,6 +67,7 @@ const deleteUserById = async (req, res) => {
 
 module.exports = {
     getAllUsers,
+    getAllUsersRef,
     getUserById,
     updateUserById,
     deleteUserById,

@@ -1,3 +1,4 @@
+const User = require('./User')
 const mongoose = require("mongoose");
 
 const OTPSchema = new mongoose.Schema({
@@ -8,7 +9,6 @@ const OTPSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    // required: [true, "Email is required"],
   },
   phoneNumber: {
     type: Number,

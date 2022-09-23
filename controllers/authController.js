@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const OTP = require("../models/OTP");
 
-const crypto = require('crypto')
+const crypto = require("crypto");
 
 const bcrypt = require("bcryptjs");
 const { StatusCodes } = require("http-status-codes");
@@ -9,8 +9,9 @@ const jwt = require("jsonwebtoken");
 const optGenerator = require("otp-generator");
 
 const sendMail = require("../utils/sendMails");
-const changePassword = require("../utils/changePassword")
-const { createTokenUser, attachCookiesToResponse } = require("../utils/jwt")
+const changePassword = require("../utils/changePassword");
+const { createTokenUser, attachCookiesToResponse } = require("../utils/jwt");
+const { use } = require("../routes/authRoutes");
 
 const register = async (req, res) => {
   const { name, email, password, role } = req.body;
@@ -37,7 +38,6 @@ const register = async (req, res) => {
       password,
     });
 
-
     await user.save();
     res.status(StatusCodes.CREATED).json({ user });
   } catch (error) {
@@ -58,7 +58,6 @@ const login = async (req, res) => {
       .json({ message: "Email and password are required." });
   }
 
-
   const user = await User.findOne({ email });
   if (!user) {
     return res
@@ -72,60 +71,73 @@ const login = async (req, res) => {
       .status(StatusCodes.UNAUTHORIZED)
       .json({ message: "Invalid credentials..." });
   }
-  const tokenUser = createTokenUser(user)
+  const tokenUser = createTokenUser(user);
 
-  let refreshToken = '';
+  let refreshToken = "";
   const existingToken = user.refreshToken;
   if (existingToken) {
     refreshToken = existingToken;
-    attachCookiesToResponse({ res, user: tokenUser, refreshToken })
-    return res.status(StatusCodes.OK).json({ user: tokenUser })
+    attachCookiesToResponse({ res, user: tokenUser, refreshToken });
+    return res.status(StatusCodes.OK).json({ user: tokenUser });
   }
 
-
-
-  refreshToken = crypto.randomBytes(40).toString('hex');
-  user.refreshToken = refreshToken
+  refreshToken = crypto.randomBytes(40).toString("hex");
+  user.refreshToken = refreshToken;
   await user.save();
 
-
-  const {token} = attachCookiesToResponse({ res, user: tokenUser, refreshToken })
+  const { token } = attachCookiesToResponse({
+    res,
+    user: tokenUser,
+    refreshToken,
+  });
   // console.log(okay)
-  res.status(StatusCodes.OK).json({ user: tokenUser,token })
+  res.status(StatusCodes.OK).json({ user: tokenUser, token });
 };
 
 const logout = async (req, res) => {
   const cookie = res.cookie;
-  res.cookie('refreshToken', 'logout', {
+  res.cookie("refreshToken", "logout", {
     httpOnly: true,
     expires: new Date(Date.now()),
   });
-  res.status(StatusCodes.OK).json({ msg: 'user logged out!' });
+  res.status(StatusCodes.OK).json({ msg: "user logged out!" });
 };
 
 const sendOTP = async (req, res) => {
+  const { email } = req.body;
+  if (!email) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ message: "Email is required" });
+  }
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: "No user with this email is found" });
+  }
+
+  const optCode = optGenerator.generate(6, {
+    digits: true,
+    lowerCaseAlphabets: false,
+    upperCaseAlphabets: false,
+    specialChars: false,
+  });
+  const expireTime = new Date().getTime() + 300 * 1000; // 5 MIN
   try {
-    const { email } = req.body;
-    if (!email) {
-      return res
-        .status(StatusCodes.BAD_REQUEST)
-        .json({ message: "Email is required" });
-    }
+    user.save(function (err) {
+      if (err) return console.log(err);
 
-    const foundUser = await User.findOne({ email }).exec();
+      const optSend = new OTP({
+        email,
+        expiresIn: expireTime,
+        code: optCode,
+      });
 
-    const optCode = optGenerator.generate(6, {
-      digits: true,
-      lowerCaseAlphabets: false,
-      upperCaseAlphabets: false,
-      specialChars: false,
-    });
-    const expireTime = new Date().getTime() + 300 * 1000; // 5 MIN
-
-    const optSend = await OTP.create({
-      email,
-      expiresIn: expireTime,
-      code: optCode,
+      optSend.save(function (err) {
+        if (err) return console.log(err);
+      });
     });
     // const result = optSend;
     const result = sendMail(email, optCode);
@@ -136,18 +148,15 @@ const sendOTP = async (req, res) => {
   }
 };
 
-
 const resetPassword = async (req, res) => {
-  const { email, password } = req.body
+  const { email, password } = req.body;
   try {
-    changePassword(email, password)
-    res.status(StatusCodes.OK).json({ msg: 'Success! Password Updated.' });
+    changePassword(email, password);
+    res.status(StatusCodes.OK).json({ msg: "Success! Password Updated." });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-
-}
-
+};
 
 module.exports = {
   register,

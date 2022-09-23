@@ -1,5 +1,7 @@
+const OTP = require("./OTP");
+
 const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs")
+const bcrypt = require("bcryptjs");
 const validator = require("validator");
 // const { User, SuperAdmin, Admin } = require("../configs/RoleList");
 
@@ -33,18 +35,19 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  codes: [{ type: mongoose.Types.ObjectId, ref: "OTP" }],
 });
 
-UserSchema.pre('save', async function () {
+UserSchema.pre("save", async function () {
   // console.log(this.modifiedPaths());
   // console.log(this.isModified('name'));
-  if (!this.isModified('password')) return;
+  if (!this.isModified("password")) return;
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-UserSchema.methods.comparePassword = async function (canditatePassword) {
-  const isMatch = await bcrypt.compare(canditatePassword, this.password);
+UserSchema.methods.comparePassword = async function (candidatePassword) {
+  const isMatch = await bcrypt.compare(candidatePassword, this.password);
   return isMatch;
 };
 
