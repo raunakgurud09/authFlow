@@ -137,9 +137,8 @@ const sendOTP = async (req, res) => {
 
     await user.save();
 
-    const result = sendMail(email, optCode);
+    sendMail(email, optCode);
     res.status(StatusCodes.OK).json({ user });
-    // const result = await sendMail();
   } catch (error) {
     console.log(error.message);
   }
