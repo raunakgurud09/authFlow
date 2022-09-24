@@ -144,7 +144,7 @@ const sendOTP = async (req, res) => {
     res.status(StatusCodes.OK).json({ result });
     // const result = await sendMail();
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 };
 
