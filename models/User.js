@@ -41,12 +41,25 @@ const UserSchema = new mongoose.Schema({
   ],
 });
 
-UserSchema.pre("save", async function () {
-  // console.log(this.modifiedPaths());
-  // console.log(this.isModified('name'));
-  if (!this.isModified("password")) return;
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
+// UserSchema.pre("save", async function () {
+//   // console.log(this.modifiedPaths());
+//   // console.log(this.isModified('name'));
+//   if (!this.isModified("password")) return;
+//   const salt = await bcrypt.genSalt(10);
+//   this.password = await bcrypt.hash(this.password, salt);
+// });
+
+UserSchema.pre('save', async function save(next) {
+  if (!this.isModified('password')) return next();
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    console.log('hi')
+    console.log(this.password)
+    return next();
+  } catch (err) {
+    return next(err);
+  }
 });
 
 UserSchema.methods.comparePassword = async function (candidatePassword) {
