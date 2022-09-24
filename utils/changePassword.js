@@ -9,11 +9,8 @@ const changePassword = async (email, password) => {
             .status(StatusCodes.UNAUTHORIZED)
             .json({ message: "No user found with this email" });
     }
-    // const hashPassword = await bcrypt.hash(password, 10);
-
     user.password = password;
     await user.save();
-    console.log(user)
 }
 
 module.exports = changePassword
