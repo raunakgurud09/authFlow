@@ -12,6 +12,7 @@ const sendMail = require("../utils/sendMails");
 const changePassword = require("../utils/changePassword");
 const { createTokenUser, attachCookiesToResponse } = require("../utils/jwt");
 const { use } = require("../routes/authRoutes");
+const { create } = require("../models/OTP");
 
 const register = async (req, res) => {
   const { name, email, password, role } = req.body;
@@ -117,6 +118,7 @@ const sendOTP = async (req, res) => {
       .status(StatusCodes.UNAUTHORIZED)
       .json({ message: "No user with this email is found" });
   }
+  // console.log(user)
 
   const optCode = optGenerator.generate(6, {
     digits: true,
@@ -126,22 +128,17 @@ const sendOTP = async (req, res) => {
   });
   const expireTime = new Date().getTime() + 300 * 1000; // 5 MIN
   try {
-    user.save(function (err) {
-      if (err) return console.log(err);
-
-      const optSend = new OTP({
-        email,
+    user.code = [
+      await OTP.create({
         expiresIn: expireTime,
         code: optCode,
-      });
+      }),
+    ];
 
-      optSend.save(function (err) {
-        if (err) return console.log(err);
-      });
-    });
-    // const result = optSend;
+    await user.save();
+
     const result = sendMail(email, optCode);
-    res.status(StatusCodes.OK).json({ result });
+    res.status(StatusCodes.OK).json({ user });
     // const result = await sendMail();
   } catch (error) {
     console.log(error.message);

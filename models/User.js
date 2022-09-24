@@ -1,5 +1,3 @@
-const OTP = require("./OTP");
-
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const validator = require("validator");
@@ -10,7 +8,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide name"],
     minlength: 3,
-    maxlength: 50,
+    maxLength: 50,
   },
   email: {
     type: String,
@@ -35,7 +33,12 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
-  codes: [{ type: mongoose.Types.ObjectId, ref: "OTP" }],
+  code: [
+    {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: "OTP",
+    },
+  ],
 });
 
 UserSchema.pre("save", async function () {
