@@ -13,9 +13,3 @@ client.messages
      to: '+919022688778'
    })
   .then(message => console.log(message.sid));
-
-
-  //Account SID AC086d0aab3ae4744d67293c5a73eceb63
-  //Auth Token 3dd793ce39b187347c56d3eed1ab3b93
-
-//   MG3d994b5c98f3539e8e0a354834b11f83

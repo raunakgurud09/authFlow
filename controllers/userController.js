@@ -24,7 +24,7 @@ const uploadImageUserAvatar = async (req, res) => {
 
     const user = await User.findOne({ _id: userId })
     console.log(user)
-    user.image = imageString || "123"
+    user.image = imageString || "add default string"
     await user.save();
 
     res.status(StatusCodes.OK).json({ user })
