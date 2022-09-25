@@ -25,6 +25,9 @@ app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET))
 app.use(fileUpload({ useTempFiles: true }));
 
+app.get('/',(req,res)=>{
+  res.send('<a href="/auth/google">Google</a>')
+})
 
 //  routes config
 app.use("/api/v1/auth", authRoutes);

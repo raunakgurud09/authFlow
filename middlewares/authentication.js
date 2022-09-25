@@ -34,7 +34,6 @@ const authenticateUser = async (req, res, next) => {
 };
 
 const authUser = async (req, res, next) => {
-  // console.log(req.cookies.accessToken)
   const { refreshToken, accessToken } = req.cookies;
   if (!refreshToken && !accessToken) {
     return res
