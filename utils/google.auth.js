@@ -19,6 +19,7 @@ passport.use(
           return cb(err, user);
         }
       );
+      console.log('hi')
     }
   )
 );

@@ -31,6 +31,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/google/callback", (req, res) => {
+  console.log(req.query.code)
   res.send("<p>redirect</p>");
 });
 app.get("/bad", (req, res) => {
