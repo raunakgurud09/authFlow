@@ -12,9 +12,12 @@ const sendMail = async (email, otp) => {
     text: `Your OTP is ${otp}`, // Plain text body
   };
 
-  const result = await transport.sendMail(mailOptions, (err) => {
+  const result = await transport.sendMail(mailOptions, (err,info) => {
     if (err) {
       console.log(err.message);
+    }else{
+      // console.log(info)
+      return info
     }
   });
   return result;

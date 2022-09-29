@@ -13,9 +13,10 @@ const changePassword = require("../utils/changePassword");
 const { createTokenUser, attachCookiesToResponse } = require("../utils/jwt");
 const { use } = require("../routes/authRoutes");
 const { create } = require("../models/OTP");
+const sendVerificationMail = require("../utils/sendVerificationEmail");
 
 const register = async (req, res) => {
-  console.log('hi')
+  console.log("hi");
   const { name, email, password, role } = req.body;
   if ((!email, !password)) {
     return res
@@ -138,11 +139,36 @@ const sendOTP = async (req, res) => {
 
     await user.save();
 
-    sendMail(email, optCode);
-    res.status(StatusCodes.OK).json({ user });
+    const result = await sendMail(email, optCode);
+    res.status(StatusCodes.OK).json({ result });
   } catch (error) {
     console.log(error.message);
   }
+};
+
+const verifyEmail = async (req, res) => {
+  const { email } = req.body;
+  if (!email) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ message: "Email is required" });
+  }
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: "No user with this email is found" });
+  }
+
+  try {
+    const result = await sendVerificationMail(email)
+    res.json({result})
+  } catch (error) {
+    
+  }
+
+
 };
 
 const resetPassword = async (req, res) => {
@@ -154,11 +180,6 @@ const resetPassword = async (req, res) => {
     console.log(error);
   }
 };
-
-
-const verifyEmail = (req,res) => {
-  res.send('hi')
-}
 
 module.exports = {
   register,
