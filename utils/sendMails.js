@@ -16,7 +16,6 @@ const sendMail = async (email, otp) => {
     if (err) {
       console.log(err.message);
     }else{
-      // console.log(info)
       return info
     }
   });

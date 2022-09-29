@@ -16,7 +16,6 @@ const { create } = require("../models/OTP");
 const sendVerificationMail = require("../utils/sendVerificationEmail");
 
 const register = async (req, res) => {
-  console.log("hi");
   const { name, email, password, role } = req.body;
   if ((!email, !password)) {
     return res
@@ -40,9 +39,24 @@ const register = async (req, res) => {
       role: role || "user",
       password,
     });
-
     await user.save();
-    res.status(StatusCodes.CREATED).json({ user });
+
+    const origin = "http://localhost:5000/api/v1";
+    const verificationToken = crypto.randomBytes(40).toString("hex");
+
+    user.verificationToken = verificationToken;
+    await user.save();
+
+    const result = await sendVerificationMail({
+      name: user.name,
+      email,
+      verificationToken,
+      origin,
+    });
+    console.log(result);
+    res
+      .status(StatusCodes.CREATED)
+      .json({ user, message: "verification mail sent to your email" });
   } catch (error) {
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
@@ -51,9 +65,6 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  // const cookies = req.cookies;
-  // console.log(`cookies available at login: ${JSON.stringify(cookies)}`);
-
   const { email, password } = req.body;
   if (!email && !password) {
     return res
@@ -93,7 +104,6 @@ const login = async (req, res) => {
     user: tokenUser,
     refreshToken,
   });
-  // console.log(okay)
   res.status(StatusCodes.OK).json({ user: tokenUser, token });
 };
 
@@ -120,7 +130,6 @@ const sendOTP = async (req, res) => {
       .status(StatusCodes.UNAUTHORIZED)
       .json({ message: "No user with this email is found" });
   }
-  // console.log(user)
 
   const optCode = optGenerator.generate(6, {
     digits: true,
@@ -146,7 +155,7 @@ const sendOTP = async (req, res) => {
   }
 };
 
-const sendVerificationEmail = async (req, res) => {
+const verifyEmail = async (req, res) => {
   const { email } = req.body;
   if (!email) {
     return res
@@ -173,28 +182,26 @@ const sendVerificationEmail = async (req, res) => {
       verificationToken,
       origin,
     });
-    res.json({ result });
+    res.status(StatusCodes.OK).json({ result });
   } catch (error) {
     console.log(error.message);
   }
 };
 
-const verifyEmail = async (req, res) => {
-  console.log("hi");
+const checkVerifiedEmail = async (req, res) => {
   const { token, email } = req.query;
-  console.log(email,token)
   const user = await User.findOne({ email });
 
   if (!user) {
     return res
-      .status(StatusCodes.UNAUTHORIZED)
+      .status(StatusCodes.BAD_REQUEST)
       .json({ message: "No user with this email is found" });
   }
 
   if (user.verificationToken !== token) {
     return res
       .status(StatusCodes.UNAUTHORIZED)
-      .json({ message: "No user with this email is found" });
+      .json({ message: "verification code did not match" });
   }
 
   user.isVerified = true;
@@ -220,7 +227,7 @@ module.exports = {
   login,
   logout,
   sendOTP,
-  sendVerificationEmail,
   verifyEmail,
+  checkVerifiedEmail,
   resetPassword,
 };

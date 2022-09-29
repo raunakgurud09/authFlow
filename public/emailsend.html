@@ -5,11 +5,30 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body{
+            font-size: larger;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        p{
+            font-size: larger;
+        }
+        .button{
+            background-color: #35A566;
+            color:white;
+            border: none;
+            border-radius: 10px;
+            padding: 0.7rem 0.5rem;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hi from ejs {{name}} </h1>
+    <h1>Confirm your email address to get started on *This app*</h1>
+    <p>Once you've Confirm that {{email}} is your email address, we'll help you find you workspaces or create a new one </p>
+    <P><strong>From you mobile device</strong>,tap the button below to confirm:</P>
     <form action={{verifyEmail}} method="post">
-        <button type="submit">click me</button>
+        <button class="button" type="submit">Confirm Email Address</button>
     </form>
+    <p>if you didn't request the email, there's nothing to worry about you can safely ignore it.</p>
 </body>
 </html>

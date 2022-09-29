@@ -19,17 +19,20 @@ Router.route("/users").get(
   authorizePermissions("admin", "superadmin"),
   getAllUsers
 );
-Router.route("/userz").get(
-  authUser,
-  authorizePermissions("admin", "superadmin"),
-  getAllUsers
-);
 
 Router.route("/user/:id")
-  .get(authUser, authorizePermissions("admin", "superadmin"), getUserById)
-  .patch(authUser, authorizePermissions("admin", "superadmin"), updateUserById)
+  .get(
+    authenticateUser,
+    authorizePermissions("admin", "superadmin"),
+    getUserById
+  )
+  .patch(
+    authenticateUser,
+    authorizePermissions("admin", "superadmin"),
+    updateUserById
+  )
   .delete(
-    authUser,
+    authenticateUser,
     authorizePermissions("admin", "superadmin"),
     deleteUserById
   );

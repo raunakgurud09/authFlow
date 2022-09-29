@@ -16,17 +16,23 @@ const sendVerificationMail = async ({
   const filePath = path.join(__dirname, "../public/emailsend.html");
   const source = fs.readFileSync(filePath, "utf-8").toString();
   const template = handlebars.compile(source);
+
   const replacements = {
     name,
     verifyEmail,
   };
+
   const htmlToSend = template(replacements);
+
   let transporter = nodemailer.createTransport(nodemailerConfig);
+
   const mailOptions = {
     from: process.env.GMAIL_USER_EMAIL,
     to: email,
-    subject: "subject",
-    text: "something",
+    subject: "Verify your email",
+    text: `Hello ${name}
+    This is to verify your email click on the link 
+    ${verifyEmail}`,
     html: htmlToSend,
   };
   const info = await transporter.sendMail(mailOptions);
