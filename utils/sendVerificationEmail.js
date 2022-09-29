@@ -37,8 +37,6 @@ const sendVerificationMail = async ({
   };
   const info = await transporter.sendMail(mailOptions);
   return info;
-  //   console.log("Message sent: %s", info.messageId);
-  //   console.log("Preview URL: %s", "https://mailtrap.io/inboxes/test/messages/");
 };
 
 module.exports = sendVerificationMail;

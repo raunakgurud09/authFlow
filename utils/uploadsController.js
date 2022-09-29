@@ -4,7 +4,6 @@ const { StatusCodes } = require("http-status-codes");
 const { cloudinary } = require("../configs/cloudinary");
 
 const uploadUserAvatarImageLocal = async (req, res) => {
-  console.log('hi')
   if (!req.files) {
     return res
       .status(StatusCodes.BAD_REQUEST)
@@ -35,7 +34,6 @@ const uploadUserAvatarImageLocal = async (req, res) => {
   } catch (error) {
     console.log(error)
   }
-
 };
 
 const uploadUserAvatarImage = async (req, res) => {

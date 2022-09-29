@@ -10,6 +10,7 @@ const uploadImageUserAvatar = async (req, res) => {
 
     // const { imageString } = req.body
     // const imageString = await uploadUserAvatarImageLocal(req, res);
+    
     const imageString = await uploadUserAvatarImage(req, res);
 
 
