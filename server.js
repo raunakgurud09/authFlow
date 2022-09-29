@@ -14,15 +14,10 @@ const helmet = require("helmet");
 const xss = require("xss-clean");
 
 //  import configs
-const connectDB = require("./configs/DbConnect");
 const dotenvConfig = require("./configs/dotenv.config");
 
 //  database
-
-//  routersImport
-const authRoutes = require("./routes/authRoutes");
-const userRoutes = require("./routes/userRoutes");
-const adminRoute = require("./routes/adminRoutes");
+const connectDB = require("./configs/DbConnect");
 
 //  middleware
 app.use(express.json());
@@ -41,6 +36,11 @@ app.use(helmet());
 app.use(xss());
 
 app.use(express.static("./public"));
+
+//  routersImport
+const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
+const adminRoute = require("./routes/adminRoutes");
 
 //  routes config
 app.use("/api/v1/auth", authRoutes);
