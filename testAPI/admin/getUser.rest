@@ -1,7 +1,7 @@
 
-
+# replace :id with userId - get it from getAllUsers 
+# add authorization token - get it from response after login
 
 GET  http://localhost:5000/api/v1/admin/user/6335f2234bcc9b095cc8841e HTTP/1.1
 content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5hbWUiOiJ0b255c3RhcmsiLCJ1c2VySWQiOiI2MzEzMTIxMjE0OWIyNmVjYTRlNzllNWQiLCJyb2xlIjoiYWRtaW4ifSwiaWF0IjoxNjY0NDg0MTgwfQ.nLnL713TPi7oL5d6-OILnI-da5RBBwc9vhjX2IrFB5o
-# add authorization token - get it from response after login
+Authorization: Bearer xxx
