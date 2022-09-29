@@ -13,7 +13,7 @@ const sendVerificationMail = async ({
 }) => {
   const verifyEmail = `${origin}/user/verify-email?token=${verificationToken}&email=${email}`;
 
-  const filePath = path.join(__dirname, "../public/emailsend.html");
+  const filePath = path.join(__dirname, "../public/sendEmail.html");
   const source = fs.readFileSync(filePath, "utf-8").toString();
   const template = handlebars.compile(source);
 
