@@ -1,0 +1,6 @@
+
+
+GET http://localhost:5000/api/v1/user/profile HTTP/1.1
+content-type: application/json
+Authorization: Bearer xxx
+# add authorization token - get it from response after login

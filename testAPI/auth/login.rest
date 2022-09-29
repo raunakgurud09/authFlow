@@ -1,0 +1,11 @@
+
+
+
+POST http://localhost:5000/api/v1/auth/login HTTP/1.1
+content-type: application/json
+
+{
+    "email":"tonystark@gmail.com",
+    "password": "raunak123"
+}
+
