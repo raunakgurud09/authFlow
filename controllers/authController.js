@@ -15,6 +15,7 @@ const { use } = require("../routes/authRoutes");
 const { create } = require("../models/OTP");
 
 const register = async (req, res) => {
+  console.log('hi')
   const { name, email, password, role } = req.body;
   if ((!email, !password)) {
     return res
@@ -154,10 +155,16 @@ const resetPassword = async (req, res) => {
   }
 };
 
+
+const verifyEmail = (req,res) => {
+  res.send('hi')
+}
+
 module.exports = {
   register,
   login,
   logout,
   sendOTP,
+  verifyEmail,
   resetPassword,
 };
