@@ -146,7 +146,7 @@ const sendOTP = async (req, res) => {
   }
 };
 
-const verifyEmail = async (req, res) => {
+const sendVerificationEmail = async (req, res) => {
   const { email } = req.body;
   if (!email) {
     return res
@@ -160,15 +160,49 @@ const verifyEmail = async (req, res) => {
       .status(StatusCodes.UNAUTHORIZED)
       .json({ message: "No user with this email is found" });
   }
+  const origin = "http://localhost:5000/api/v1";
+  const verificationToken = crypto.randomBytes(40).toString("hex");
+
+  user.verificationToken = verificationToken;
+  await user.save();
 
   try {
-    const result = await sendVerificationMail(email)
-    res.json({result})
+    const result = await sendVerificationMail({
+      name: user.name,
+      email,
+      verificationToken,
+      origin,
+    });
+    res.json({ result });
   } catch (error) {
-    
+    console.log(error.message);
+  }
+};
+
+const verifyEmail = async (req, res) => {
+  console.log("hi");
+  const { token, email } = req.query;
+  console.log(email,token)
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: "No user with this email is found" });
   }
 
+  if (user.verificationToken !== token) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: "No user with this email is found" });
+  }
 
+  user.isVerified = true;
+  user.verificationToken = "";
+
+  await user.save();
+
+  res.status(StatusCodes.OK).json({ msg: "Email Verified" });
 };
 
 const resetPassword = async (req, res) => {
@@ -186,6 +220,7 @@ module.exports = {
   login,
   logout,
   sendOTP,
+  sendVerificationEmail,
   verifyEmail,
   resetPassword,
 };

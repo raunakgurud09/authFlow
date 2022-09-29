@@ -24,6 +24,11 @@ const UserSchema = new mongoose.Schema({
     required: [true, "Please provide password"],
     minlength: 6,
   },
+  verificationToken: String,
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
   role: {
     type: String,
     default: "user",
@@ -41,9 +46,8 @@ const UserSchema = new mongoose.Schema({
   ],
 });
 
-
-UserSchema.pre('save', async function save(next) {
-  if (!this.isModified('password')) return next();
+UserSchema.pre("save", async function save(next) {
+  if (!this.isModified("password")) return next();
   try {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
