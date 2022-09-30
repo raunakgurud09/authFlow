@@ -4,5 +4,7 @@ POST http://localhost:5000/api/v1/auth/send-verification-email HTTP/1.1
 content-type: application/json
 
 {
-    "email":"raunakgurud09@gmail.com"
+    "email":"*@gmail.com"
 }
+
+# mention an email which is prensent in data would recive verification mail

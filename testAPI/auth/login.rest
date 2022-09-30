@@ -9,3 +9,4 @@ content-type: application/json
     "password": "raunak123"
 }
 
+# Get the accesses token from the response body useful for other routes

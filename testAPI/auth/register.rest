@@ -1,7 +1,6 @@
 
 
 
-
 POST http://localhost:5000/api/v1/auth/register HTTP/1.1
 content-type: application/json
 
@@ -11,4 +10,5 @@ content-type: application/json
     "password": "raunak123"
 }
 
-
+# "role":"admin" || "superadmin" ||"defalut":"user" 
+    # if you add a role that would be added
