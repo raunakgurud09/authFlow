@@ -1,0 +1,4 @@
+
+
+DELETE http://localhost:5000/api/v1/auth/logout HTTP/1.1
+# res.cookies clear is in browser

@@ -1,0 +1,231 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  scroll-behavior: smooth;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap'); */
+
+:root {
+  /*Typography*/
+  --heading1: 68px;
+  --heading2: 48px;
+  --heading3: 40px;
+  --heading4: 24px;
+  --heading5: 21px;
+  --heading6: 16px;
+  --para: 24px;
+
+  font-family: "Poppins", sans-serif;
+  font-family: "Roboto", sans-serif;
+
+  /*Colors*/
+  --lightTint: rgba(223, 246, 253, 0.7);
+  --tint: #dff6fd;
+  --hue: #47b5ff;
+  --tone: #1363df;
+  --shade: #06283d;
+
+  /*black shades*/
+  --black100: rgba(0, 0, 0, 1);
+  --black75: rgba(0, 0, 0, 0.75);
+  --black50: rgba(0, 0, 0, 0.5);
+  --black25: rgba(0, 0, 0, 0.25);
+  --black10: rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 1000px) {
+  :root {
+    --heading1: 48px;
+    --heading2: 40px;
+    --heading3: 32px;
+    --heading4: 24px;
+    --heading5: 20px;
+    --heading6: 16px;
+    --para: 24px;
+    font-family: "Poppins", sans-serif;
+  }
+}
+@media (max-width: 700px) {
+  :root {
+    --heading1: 24px;
+    --heading2: 22px;
+    --heading3: 19px;
+    --heading4: 17px;
+    --heading5: 15px;
+    --heading6: 14px;
+    --para: 12px;
+    font-family: "Poppins", sans-serif;
+  }
+}
+
+.home {
+  margin: 0 auto;
+  max-width: 1800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  /* background-color: var(--black10); */
+}
+
+.container {
+  width: 100%;
+  max-width: 1288px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  /* outline: 1px solid black; */
+  /* background-color: var(--black25); */
+
+  margin: 96px 48px;
+  padding: 0px 2rem;
+  position: relative;
+
+  /* box-shadow: 5px 5px 10px black; */
+}
+
+@media (max-width: 700px) {
+  .container {
+    flex-direction: column;
+    margin: 64px 16px;
+  }
+}
+
+.contact__container-left {
+  width: 47%;
+}
+
+@media (max-width: 700px) {
+  .contact__container-left {
+    width: 100%;
+  }
+
+  .contact__text-wrap {
+    text-align: center;
+    margin: 1rem 0rem;
+  }
+}
+
+.contact__text-wrap h3 {
+  font-size: var(--heading3);
+}
+.contact__text-wrap p {
+  font-size: var(--para);
+}
+/******************************/
+.contact__container-right {
+  width: 47%;
+  height: 100%;
+}
+
+@media (max-width: 700px) {
+  .contact__container-right {
+    width: 100%;
+  }
+}
+
+.form {
+  width: 100%;
+  height: 100%;
+  /* background-color: teal; */
+
+  background-color: var(--black10);
+  /* margin: .5rem; */
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-radius: 8px;
+  padding: 4rem 2rem;
+}
+
+.form__50section {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 1000px) {
+  .form__50section {
+    flex-direction: column;
+  }
+  .form__message {
+    width: 100%;
+  }
+}
+
+label {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  font-weight: 300;
+  padding: 0.2rem;
+}
+input {
+  width: 100%;
+  height: 4em;
+
+  background-color: rgba(0, 0, 0, 0.1);
+  background-color: transparent;
+  border: 1px solid var(--black25);
+  border-radius: 8px;
+  padding: 1rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  /* font-family:   Verdana, 'Trebuchet MS', Tahoma,; */
+}
+
+textarea {
+  background-color: transparent;
+  border: 1px solid var(--black25);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+textarea:focus {
+  outline: 1px solid var(--black25);
+}
+
+input:focus {
+  outline: 1px solid var(--black25);
+}
+
+.form__message {
+  height: 7em;
+  width: 100%;
+  align-items: center;
+}
+
+form Button {
+  margin: 2rem 0px;
+}
+
+.error {
+  color: red;
+  font-size: smaller;
+}
+
+form span {
+  color: green;
+  margin: 0.4rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.1);
+  background-color: transparent;
+  border: 1px solid var(--black25);
+  border-radius: 8px;
+}

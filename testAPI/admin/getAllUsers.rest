@@ -1,0 +1,9 @@
+
+
+# add authorization token - get it from response after login
+
+GET http://localhost:5000/api/v1/admin/users HTTP/1.1
+content-type: application/json
+Authorization: Bearer xxx
+
+

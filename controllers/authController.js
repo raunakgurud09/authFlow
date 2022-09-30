@@ -188,7 +188,7 @@ const verifyEmail = async (req, res) => {
   }
 };
 
-const checkVerifiedEmail = async (req, res) => {
+const checkVerificationEmail = async (req, res) => {
   const { token, email } = req.query;
   const user = await User.findOne({ email });
 
@@ -228,6 +228,6 @@ module.exports = {
   logout,
   sendOTP,
   verifyEmail,
-  checkVerifiedEmail,
+  checkVerificationEmail,
   resetPassword,
 };

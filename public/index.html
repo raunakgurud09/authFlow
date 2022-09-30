@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+
+  <body>
+    <div class="container" id="contact">
+      <div class="contact__container-left">
+        <div class="contact__text-wrap">
+          <h3>Send me a message!</h3>
+          <p>
+            Got some work <br />Want to collaborate,<br />
+            Or just want to say HI!!<br />
+            Send message
+          </p>
+        </div>
+      </div>
+      <div class="contact__container-right">
+        <form
+          class="form"
+          action="http://localhost:5000/api/v1/auth/register"
+          method="POST"
+        >
+          <div class="form__50section">
+            <label>
+              Your name
+              <input type="text" name="name" placeholder="Enter your name" />
+            </label>
+            <label>
+              Your Email
+              <input type="email" name="email" placeholder="Enter your email" />
+            </label>
+          </div>
+          <label>
+            Your password
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+            />
+          </label>
+          <button variant="outlined" onClick="handleSubmit">
+            Send message
+          </button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

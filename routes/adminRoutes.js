@@ -37,11 +37,6 @@ Router.route("/user/:id")
     deleteUserById
   );
 
-Router.get(
-  "/test",
-  authUser,
-  authorizePermissions("admin", "superadmin"),
-  test
-);
+
 
 module.exports = Router;

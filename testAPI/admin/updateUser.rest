@@ -1,0 +1,7 @@
+
+# replace :id with userId - get it from getAllUsers 
+# add authorization token - get it from response after login
+
+PATCH  http://localhost:5000/api/v1/admin/user/:id HTTP/1.1
+content-type: application/json
+Authorization: Bearer xxx

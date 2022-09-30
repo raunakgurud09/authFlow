@@ -93,7 +93,7 @@ const validateUser = async (req, res, next) => {
     // if(!findUser){
     //     return res.status(StatusCodes.BAD_REQUEST).json({message:"No user found with this id"})
     // }
-    if ((findUser._id === userId || user.role === "admin", "superadimn")) {
+    if ((findUser._id === userId || user.role === "admin", "superadmin")) {
       next();
     }
   } catch (error) {

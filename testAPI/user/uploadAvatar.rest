@@ -1,0 +1,6 @@
+
+
+POST http://localhost:5000/api/v1/user/upload-avatar HTTP/1.1
+header name: header value
+
+content

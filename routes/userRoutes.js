@@ -1,14 +1,26 @@
 const Router = require("express").Router();
 
-const { checkVerifiedEmail } = require("../controllers/authController");
-const { uploadImageUserAvatar, test, userProfile } = require("../controllers/userController");
+const {
+  checkVerificationEmail,
+  resetPassword,
+  sendOTP,
+  verifyEmail,
+} = require("../controllers/authController");
 
-const { authorizePermissions, authUser, validateUser } = require("../middlewares/authentication")
+const {
+  uploadImageUserAvatar,
+  userProfile,
+} = require("../controllers/userController");
 
-Router.post("/upload-avatar", authUser, uploadImageUserAvatar);
-Router.get("/profile", authUser, userProfile);
-Router.route("/verify-email").post(checkVerifiedEmail)
+const { authenticateUser } = require("../middlewares/authentication");
 
-// Router.get("/profile", authUser, validateUser, userProfile);
+const { checkOTP } = require("../middlewares/checkOtp");
+
+Router.post("/upload-avatar", authenticateUser, uploadImageUserAvatar);
+Router.get("/profile", authenticateUser, userProfile);
+
+Router.route("/verify-email").post(checkVerificationEmail);
+Router.route("/send-otp").post(sendOTP);
+Router.route("/reset-password").post(checkOTP, resetPassword);
 
 module.exports = Router;
