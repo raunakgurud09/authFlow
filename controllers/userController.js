@@ -44,7 +44,8 @@ const userProfile = async (req, res) => {
       .status(StatusCodes.UNAUTHORIZED)
       .json({ message: "No user with this email is found" });
   }
-  res.status(StatusCodes.OK).json(user);
+  res.status(StatusCodes.OK).json({ data: { user } });
+  // res.status(StatusCodes.OK).json({ data: { user: req.user } });
 };
 
 module.exports = {
